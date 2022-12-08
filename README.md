@@ -1,24 +1,34 @@
 ### Curso de Spring
 
-**Clase 1- hello world, creacion de un primer controller, configuracion de puerto path, y nivel de loggin en el archivo .properties**
+**Clase-2-hello-world con thymeleaf, creacion de un controlador Sprign MVC, configuracion del banner de sprign,
+y el no guardar cache de thymelaf en la configuracion del .properties, configuracion del name-space de thymeaf
+en el arhivo html  y redirecionar desde el end-point hacia la template**
 
-Al ir  a la pagina de sprint initializr o crear un projecto spring con el pulgins de este mismo desde el IDE, al selecionar la version de spring Boot que vamos autlizar, basicamente, spring, nos va a facilitar taresas como es la adminisracion de dependencias y administrar el servidor de palicaciones que ya viene embebido por ejemplo el tomcat que es e que viene por default, tambien por default las aplicaciones con spring Boot van a utilzar aplicaciones de tipos jar ya que para crear aplicaciones web con spring Boot ya no es necesario especificar que sean tipo war, sino que se trbaja con tipo jar.
-Spring Boot ya agrega una cierta configuracion de librerias, lo cual hace la diferencia de trabajar con proyectos utilizando simplemente spring o trabajando con **spring Boot, pues spring boot ya agrega paquetes de librerias que podemos utilizar mas facilmente, como por ejemplo:**
-* **Spring Boot DevTools** este nos permite reiniciar mas facilmente nuestro servidro de aplicaciones, y tambien utilizar LiveReload que nos permite refrescar nuestra aplicacion directamnte en el navegador...
-* **Lombok** el cual nos facilita mucho el uso de los getters and setters, constructores, toString y demas...
-* **Spring Web** la mas importante, ya que nos permite crear apicaciones de tipo RESt, y aplicaciones web usando MVC...
-* **Thymeleaf** el cual nos permite agregar paginas web de manera mas simple a los JSP que se veiana en el pasado, esto para la creacion de monolitos...
+En esta clase vamos a utlizar la tecnologica Sprign MVC, para la creacion
+de un monolito, donde la parte front, de nuestra palicacion la menejaremos dentro 
+de muestro mismo projecto de spring mediante la tecnologia de thymeleaf, dado que es la 
+mejor tecnologia para presentar informacion con spring en la creacion de un monolito, sin
+necsidad de apoyarse en los viejos JSP.
 
-**Spring Boot nos va a simplificar las creacion de aplicaciones con Spring dada los paquetes que nos permite para simplicar la configuracion, para que nos centralicemos en empezar a trbajar en la aplicacion...**
+* **El controllador**, el controlador no estaria con la anotacion @RestController sino que por
+el contrario lo tendremos que convertir a un **controlador de tipo Spring MVC, con la utlizacion de 
+la anotacion @Controller**, las ventajas que tenemos de trabajar con un controllador @RestController
+o @Controller es que la configuracion es muy similar, por lo que de igual manera configuraremos nuestros 
+end-point de igual manera.
+* Para realizar el redicionamiento hacia la pagina, nuestro end-point tendra que retornar un string, 
+que sera el nombre de la pagina a la cual queremos ir, para la cual con ayuda de la tecnologia de thymeleaf,
+spring buscara un archivo html, dentro de la carpta templates en resources con el nombre que estamos
+retornando en el string
 
-![image](https://user-images.githubusercontent.com/62717509/206083826-9ad1473c-ad86-44c6-aba4-be435f5d586e.png)
+* **Para que podamos manejar informacion dinamica** en nuestra template, el archivo html que estemos mostrando al cliente,
+con ayuda de la tecnologia de thymeleaf,debemos de colocar dentro de la etiqueta html:
+**xmlns:th="http://www.thymeleaf.org"**
+y podremos hacer uso de las etiquetas de thymeleaf, por ejemplo:
 
-Para la carpta Resources se han creado dos carpetas adicionales, al estar trabajando con la tecnologia de Tyhmelaf para la creacion de un monolito, tenemos que la carpeta static nos permitra agregar elemntos staticos, como archivos js, css, o imagenes..
-y para templates donde vamos agregar nuestros arhivos de presentacion utlizando thymelaf
-Cabe recordar el .properties, para poder modificar las configuracion de nuestro framework de spring, y tambien algunas configuraciones de spring Boot, entres toras, como la conexion a la db, el puerto de la aplicacion un data-source, etc..
+  ![image](https://user-images.githubusercontent.com/62717509/206585543-7aad27fb-5314-4f94-88a3-875991d956af.png)
 
-* Partes de las caracteristicas del framework de spring es que es un contenedor de clases java, asi que para que sprign reconosca las clases que vamos a agregar anuestra aplicacion deben estar dentro del mismo package donde se encuentr la clase Apllication, por ende si nos vamos asi la anotacion @SpringBootApplication y nos dirijimos asi la clase correspondiente podrmos observar que estan tendra una anotacion de @ComponentScan, la cual lo que va a hacer es bucar las clases que se encuenten dentro del package donde este la clase Application o en algun subpackage de este
 
-En este clase creamos un primer controller para realizar un consumo a nuestra app, y obtener una respuesta...
-
-**cabe recordar que el archivo .properties** es un archivo para la configuracion de nuestras aplicaciones de spring Boot
+* **la tecnologia de thymelaf hace cache**, cabe mencionar que la tecnologia de thymeaf hace cahce por lo que debemos 
+para mas comodidad quitar esto, con la configuracion que en el .properties, para que cuando estemos trabajando
+no tengamos problemas al visulizar nuestra informacion en el navegador
+**spring.thymeleaf.cache=false**
