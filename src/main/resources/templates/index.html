@@ -6,7 +6,12 @@
 </head>
 <body>
 <h1>Welcome to the project fo course </h1>
-<p th:text="saludos"></p>
+
+<p th:text="${greeting}"></p>
+<!--para acceder a el objeto que enviamos desde el controllador, necesitamos por medio
+de la sintaxis ${} colocar el nombre de la clave dada al momento de aplicar el addAtribute method-->
+
+<p th:text="${properties}"></p>
 
 </body>
 </html>

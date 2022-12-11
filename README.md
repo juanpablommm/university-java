@@ -1,34 +1,26 @@
 ### Curso de Spring
 
-**Clase-2-hello-world con thymeleaf, creacion de un controlador Sprign MVC, configuracion del banner de sprign,
-y el no guardar cache de thymelaf en la configuracion del .properties, configuracion del name-space de thymeaf
-en el arhivo html  y redirecionar desde el end-point hacia la template**
+**clase-3 compartiendo informacion con spring MVC a thymelaf**
+En esta clase se manda informacion desde nuestro controlador Spring MVC, hacia la template de thymeleaf
+que estamos trabajando...
+Normalmente cuando se trabajaba con la APi de los Servlets se tenia que para el end-point que se estuviera
+trabajando, se tenia que tener un objeto HttpServletRequest y HttpServletResponse y manejar la informacion
+guardandola en la seccion en la aplicacion, sin envargo
+con spring no es necesario esto, para esto en el caso de nuestra aplicacion Spring MVC, al momento
+de querer conmpartir HttpServletRequest infromacion con nuestra vista, que ya es una template con tymeleaf que seraia html puro y no jsp.
+tendremos que apoyarnos de un Objecto **Model** como parametro den el end-point el cual nos servira
+para llevar la informacion del controllador hacia la vista, mediante
+la ayuda de los metodos **addAtribute** que este posee donde pasaremos
+la informacion en pár de clave valor, colcando una clave para recuperar la finromacion que estamos enviando a la vista, y el
+objecto que vamos a enviar, para ser recuperado atrabes de las etiquestas de thymeleaf, con esa clave que le dimos
+desde el controlador, esto haciendo uso de **"${}"**
 
-En esta clase vamos a utlizar la tecnologica Sprign MVC, para la creacion
-de un monolito, donde la parte front, de nuestra palicacion la menejaremos dentro 
-de muestro mismo projecto de spring mediante la tecnologia de thymeleaf, dado que es la 
-mejor tecnologia para presentar informacion con spring en la creacion de un monolito, sin
-necsidad de apoyarse en los viejos JSP.
+![image](https://user-images.githubusercontent.com/62717509/206933286-db74dfd9-3c18-4347-8cc2-f7d6ead9673b.png)
 
-* **El controllador**, el controlador no estaria con la anotacion @RestController sino que por
-el contrario lo tendremos que convertir a un **controlador de tipo Spring MVC, con la utlizacion de 
-la anotacion @Controller**, las ventajas que tenemos de trabajar con un controllador @RestController
-o @Controller es que la configuracion es muy similar, por lo que de igual manera configuraremos nuestros 
-end-point de igual manera.
-* Para realizar el redicionamiento hacia la pagina, nuestro end-point tendra que retornar un string, 
-que sera el nombre de la pagina a la cual queremos ir, para la cual con ayuda de la tecnologia de thymeleaf,
-spring buscara un archivo html, dentro de la carpta templates en resources con el nombre que estamos
-retornando en el string
+![image](https://user-images.githubusercontent.com/62717509/206933383-9305f089-6ff7-4197-80d3-43097a8a2061.png)
 
-* **Para que podamos manejar informacion dinamica** en nuestra template, el archivo html que estemos mostrando al cliente,
-con ayuda de la tecnologia de thymeleaf,debemos de colocar dentro de la etiqueta html:
-**xmlns:th="http://www.thymeleaf.org"**
-y podremos hacer uso de las etiquetas de thymeleaf, por ejemplo:
+* ahora tambien podemos crear atributos en el properties para ser asignados a una varible, esto con ayuda
+de la anotacion **@Value()** la cual le pasamos como parametro el el nombre del atributo como esta en el .properties,
+con ayuda de la sintaxis **"${}"**
 
-  ![image](https://user-images.githubusercontent.com/62717509/206585543-7aad27fb-5314-4f94-88a3-875991d956af.png)
-
-
-* **la tecnologia de thymelaf hace cache**, cabe mencionar que la tecnologia de thymeaf hace cahce por lo que debemos 
-para mas comodidad quitar esto, con la configuracion que en el .properties, para que cuando estemos trabajando
-no tengamos problemas al visulizar nuestra informacion en el navegador
-**spring.thymeleaf.cache=false**
+![image](https://user-images.githubusercontent.com/62717509/206933445-66cf3bf7-de05-4976-838b-f1625af33957.png)
