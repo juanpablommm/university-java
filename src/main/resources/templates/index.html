@@ -7,14 +7,40 @@
 <body>
 <h1>Welcome to the project of course </h1>
 
-<br>
-Name: <span th:text="${persona.getName()}"></span>
-<br>
-LastName: <span th:text="${persona.getLastName()}"></span>
-<br>
-Age: <span th:text="${persona.getAge()}"></span>
-<br>
-Email: <span th:text="${persona.getEmail()}"></span>
+<div th:if="${people != null && !people.isEmpty()}">
+<!--con la etiqueta th:if de thymeleaf podemos validar una condicional, para aplicar en base a si se cumple o no
+la accion que queremos llevar a cabo, como por ejemplo en este caso dibujar nuestra tabla;
+simplemente apoyandonos de la sintasis que ya conocemos ${} en ella mandamos a llamar el obejto que mandamos desde el controlador
+y podemos aplicar codigo java dentro de esta sintaxis, como en este caso comparar si nuestro objeto es diferente de null y diferente de vacio-->
+
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>LastName</th>
+            <th>Age</th>
+            <th>Email</th>
+        </tr>
+        <tr th:each="person : ${people}">
+            <!--para realizar la iteracion sobre una collection que enviemos desde nuestro controllador,
+            nos apoyamos de la etiqueta th:each de thymeleaf la cual nos permitira crear una varible que
+            iterara sobre el objeto que enviamos desde el controlador, por cada uno de los elmentos que traiga nuestra
+            collecion que enviamos donde de manera muy similar a un foreach normal en java, damos el nombre a la variable que
+            iterara por cada elementoseparamos con : y utlizando la sintasix que ya conocemos de thymelaf para traer con la
+            clave del obejto que enviamos del controlador recuperamos dicho objeto y enpezamos a relizar las acciones que necesitamos
+            por cada iteracion que en este caso es la agregacion de las etiquetas td y en cada una utlizamos las etiquetas th:text de
+            tymeleaf para llamar los atributos de nuestro objeto persona que tenemos en el momento de la iteracion-->
+            <td th:text="${person.getName()}"></td>
+            <td th:text="${person.getLastName()}"></td>
+            <td th:text="${person.getAge()}"></td>
+            <td th:text="${person.getEmail()}"></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+
+<div th:if="${people == null || people.isEmpty()}">
+    The list of people is empty...
+</div>
 
 </body>
 </html>
