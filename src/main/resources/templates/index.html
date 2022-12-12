@@ -5,13 +5,16 @@
     <title>Index</title>
 </head>
 <body>
-<h1>Welcome to the project fo course </h1>
+<h1>Welcome to the project of course </h1>
 
-<p th:text="${greeting}"></p>
-<!--para acceder a el objeto que enviamos desde el controllador, necesitamos por medio
-de la sintaxis ${} colocar el nombre de la clave dada al momento de aplicar el addAtribute method-->
-
-<p th:text="${properties}"></p>
+<br>
+Name: <span th:text="${persona.getName()}"></span>
+<br>
+LastName: <span th:text="${persona.getLastName()}"></span>
+<br>
+Age: <span th:text="${persona.getAge()}"></span>
+<br>
+Email: <span th:text="${persona.getEmail()}"></span>
 
 </body>
 </html>
