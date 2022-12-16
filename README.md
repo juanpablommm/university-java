@@ -1,13 +1,15 @@
 ### Curso de Spring
 
-**clase-5, aplicando condicionales e interacion sobre collections con las etiquetas de thymeleaf**
+**clase-6 spring data**
 
-* En esta clase se manda desde el controllador una collection de tipo List al template de thymeleaf,
-en donde con ayuda de las etiquetas **th:if** realizamos una validacion para verificar que las lista
-no venga vacia y en base a eso dibujar nuestras etiquetas de thml par la creacion de un tabla;
-tambien con ayuda de las etiquetas **th:each** de thymeleaf relizamos una iteracion al estilo for-each
-sobre la lista, para recorrer cada uno de los elemtos que esta trae y mostra su informacion dentro 
-de la tabla creada en thml, con ayuda tambien de la etiqueta **th:text** de thymeleaf para mostrar
-texto dentro de las etiquetas de thml
-  ![image](https://user-images.githubusercontent.com/62717509/206957808-4ed5d9bb-02b4-48f1-b17d-7eea5aa61b95.png)
-* 
+En esta clase se agregan las dependencias de spring data, y el driver de mysql conertor para trbajar con las bases de datos
+de mysql, cuando agreguemos estas dependencias cabe recalcar que al momento de realizar un buil o correr nuestro projecto fallara
+dado que la dependencia de spring data buscar automaticamente una configuracion para esta en el .properties y de no encontrarla 
+fallara el build o el correr el projecto.
+
+* cuando estamos utilizando jpa, spring por default, la implmentacion que va autlizar de jpa es hibernate, 
+si vamos a utilizar otro tipo de implmentacion como eclipseLink open jpa o otro tipo,
+debemos especificarlo en el arhivo de implementacion de dependencias (pom.xml para maven o gradle.build para gradle) y
+otro tipo de condiguraciones para que funcione... ya no es necesario el archivo persisten xml de manera expicita 
+todo esto lo administra y organiza de manera automatica, el tema de la unida de persietencia y que se va inyectar 
+a los objetos de tipo dao, mucha de esta configuracion desaprece pues de manera automatica lo hace hace spring boot

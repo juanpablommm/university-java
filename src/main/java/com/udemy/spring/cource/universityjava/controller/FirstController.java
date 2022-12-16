@@ -15,8 +15,7 @@ import java.util.List;
 @Slf4j
 @Controller("/")
 public class FirstController {
-    @Value("${index.greeting}")
-    private String greetinProperties;
+
 
     @GetMapping("*")
     public String index(Model model){
