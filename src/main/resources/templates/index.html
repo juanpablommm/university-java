@@ -17,7 +17,7 @@ y podemos aplicar codigo java dentro de esta sintaxis, como en este caso compara
         <tr>
             <th>Name</th>
             <th>LastName</th>
-            <th>Age</th>
+            <th>Phone number</th>
             <th>Email</th>
         </tr>
         <tr th:each="person : ${people}">
@@ -31,7 +31,7 @@ y podemos aplicar codigo java dentro de esta sintaxis, como en este caso compara
             tymeleaf para llamar los atributos de nuestro objeto persona que tenemos en el momento de la iteracion-->
             <td th:text="${person.getName()}"></td>
             <td th:text="${person.getLastName()}"></td>
-            <td th:text="${person.getAge()}"></td>
+            <td th:text="${person.getPhoneNumber()}"></td>
             <td th:text="${person.getEmail()}"></td>
             <td></td>
         </tr>
