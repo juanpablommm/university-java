@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta cha rset="UTF-8">
+    <title>Plantilla</title>
+</head>
+<body>
+<!--esta pagina va hacer la plantilla que vamos a uti.izar en las demas paginas html,
+por ende aqui podremos crear varias secciones reutilizables.
+para ello nos apoyaremos en la etiqueda th:fragment de thymeleaf para indicar que la etiqueta html que la tenga
+y las demas etiquetas html que esten dentro de estas simplmente seran un fragmento de codigo html que podremos
+reutilizar desde otras paginas html asignandole un nombre para ser llamdo este fragmento desde las otras paginas html-->
+<header th:fragment="header">
+    <h1>Client Control</h1>
+</header>
+
+<footer th:fragment="footer">
+    <p>Derechos Reservados... <a href="#">Juampis Montoya</a></p>
+</footer>
+</body>
+</html>

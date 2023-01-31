@@ -5,7 +5,8 @@
     <title>Data of the Person</title>
 </head>
 <body>
-<h1>Data of the Person</h1>
+<header th:replace="layout/plantilla :: header"></header>
+<h2>Data of the Person</h2>
 <a th:href="@{/}">Back</a>
 <br>
 <!--con la la etiqueta th:action estamos especificando la action del formulario el path a donde ira, al igual que
@@ -84,6 +85,6 @@ y solo nos realizara un nuevo insert con un id diferente-->
 
     <input type="submit" name="save" value="Save"/>
 </form>
-
+<footer th:replace="layout/plantilla :: footer"></footer>
 </body>
 </html>

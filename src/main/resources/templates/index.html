@@ -5,7 +5,16 @@
     <title>Index</title>
 </head>
 <body>
-<h1>Welcome to the project of course </h1>
+
+<!--para poder reutlizar uno de nuestros fragmentos de codigo que tengamos en una de nuestras plnatillas que hallamos
+creado con thymeleaf para la reutilizacion de codigo html, nos apoyamos de la etiqueta de thymeleaf ht:replace indicando
+el path de esa template desde la carpta de templates que nos define springBoot para trabjar con thymeleaft, sin la
+extencion .html mas :: y el nombre de el fragmento que hallamos degfinido, esto claro esta que debe de ser dentro de un
+mismo tipo de etiqueta html que sea la del fragmento-->
+<header th:replace="layout/plantilla :: header"></header>
+
+
+
 <!--para la agregacion de un link, utilizando la tecnologia de thymelaft,
 dentro de nuestra etiqueta a de html, agregamos la etiqueta th:href y dentro de las commillas
 dado que es un link, nos apoyaremos de el @  y las {} algo similar a cuando
@@ -71,5 +80,8 @@ y podemos aplicar codigo java dentro de esta sintaxis, como en este caso compara
     The list of people is empty...
 </div>
 
+<!--de igual manera que con el heeder ahora reutilizamos nuestro fragmento defino desde nuestra plnatilla de thymeleaf
+para este-->
+<footer th:replace="layout/plantilla :: footer"></footer>
 </body>
 </html>
