@@ -53,6 +53,14 @@ y solo nos realizara un nuevo insert con un id diferente-->
     Esta etiqueta tambien hara otro par de cosas importantes como saber fdarle formato a valores de fechas y demas...-->
     <label th:for="*{name}">Name:</label>
     <input  type="text" name="name"  th:field="*{name}">
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error Name</span>
+    <!--basicmanete utilizamos una condicinal apoyandonos de las tags de thymeleaf en donde mediante la
+    sintaxis ${} metemos la logica, y con ayuda del comodin y "field.hasErrors" al cual le pasamos como parametro
+    el nombre del campo con el que estamos validando para saber si ahy un eeror en el, si lo ahy nos apoyamos ahora de
+    la etiqueta th:errors y la sintaxis que ya conocemos *{} para mostrar los errores que hallan sobre ese atributo
+    name en este caso
+    .Ahora nuestro span solo se visulizara si tenemos un error en el campo qe estamos tratando en la condiconal
+    -->
     <br>
 
     <!--con la etiqueta th:form y la expresion *{} en la etiqueta label de html estaremos asociando para nuestro atributo
@@ -60,14 +68,18 @@ y solo nos realizara un nuevo insert con un id diferente-->
     pertenece a el input con el mismo id, dando les el valor a estos del nombre de al atributo del bean-->
     <label th:for="*{lastName}">LastName:</label>
     <input  type="text" name="lasName"  th:field="*{lastName}">
+    <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Error LastName</span>
+
     <br>
 
     <label th:for="*{phoneNumber}">PhoneNumber:</label>
     <input  type="tel" name="phoneNumber"  th:field="*{phoneNumber}">
+    <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">Error PhoneNumber</span>
     <br>
 
     <label th:for="*{email}">Email:</label>
-    <input  type="email" name="email"  th:field="*{email}">
+    <input  type="text" name="email"  th:field="*{email}">
+    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error Email</span>
     <br>
 
     <input type="submit" name="save" value="Save"/>

@@ -4,8 +4,11 @@ package com.udemy.spring.cource.universityjava.controller;
 import com.udemy.spring.cource.universityjava.entity.Person;
 import com.udemy.spring.cource.universityjava.service.IPersonService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -51,9 +54,18 @@ public class FirstController {
     * en este caso spring ya no usara la inyecion de dependencias para instanciar un nuevo objecto person sino que estara tomando la
     * la referencia en memroai del que venimos trabjando y contruimos en la template, podiendo nostros tener ya el objecto en
     * completo para poder aplicar el method save y guardar en la base de datos*/
+
+    /**mediante la anotacion @Validated estaremos validando la clase Person que justamente validamos us atributos
+     * con las anotaciones @NotNull y demas, aqui lo que haremos es verificar esta validaciones para el objeto
+     * person que vien desde la template de thymeleaf, esto tambien de  de ir acompañado de una instanica de Error
+     * del paquede de validaciones de spring, dado que con un objeto de tipo Error aplicaremos el llamdo al metodo
+     * hasHerrror() para saber si ahy un error produciodo en la validacion denuestro objecto person, errrores que
+     * puede surgir con respecto a la vlidaciones de los atributos de nuestro objecto person*/
     @PostMapping("/save")
-    public String save(Person person){
-        log.info("this is the object person at controller save {}", person);
+    public String save(@Validated Person person, Errors errors){
+        if (errors.hasErrors()){
+            return "update";
+        }
         this.service.savePerson(person);
         return "redirect:/";
         /*al especificar en el string a retornar la palabra redirec: mas el path donde queremos
