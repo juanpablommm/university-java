@@ -6,8 +6,8 @@
 </head>
 <body>
 <header th:replace="layout/plantilla :: header"></header>
-<h2>Data of the Person</h2>
-<a th:href="@{/}">Back</a>
+<h2 th:text="#{update.titlle}"></h2>
+<a th:href="@{/}" th:text="#{action.back}"></a>
 <br>
 <!--con la la etiqueta th:action estamos especificando la action del formulario el path a donde ira, al igual que
 realizarlos de manera natural en la etiqueta form de html con el atributo action, ahora con la etiqueta
@@ -52,7 +52,7 @@ y solo nos realizara un nuevo insert con un id diferente-->
     como nota importante esta equita se usa con la sintaxis *{} dado ques estaremos haciendo referencia a los objectos
     bean que slecionemos.
     Esta etiqueta tambien hara otro par de cosas importantes como saber fdarle formato a valores de fechas y demas...-->
-    <label th:for="*{name}">Name:</label>
+    <label th:for="*{name}">[[#{person.name}]]:</label>
     <input  type="text" name="name"  th:field="*{name}">
     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error Name</span>
     <!--basicmanete utilizamos una condicinal apoyandonos de las tags de thymeleaf en donde mediante la
@@ -67,18 +67,18 @@ y solo nos realizara un nuevo insert con un id diferente-->
     <!--con la etiqueta th:form y la expresion *{} en la etiqueta label de html estaremos asociando para nuestro atributo
     por ejemplo lastName de nuestro calse de dominio, o bean que estemos manejando la sociacion de decir que este label
     pertenece a el input con el mismo id, dando les el valor a estos del nombre de al atributo del bean-->
-    <label th:for="*{lastName}">LastName:</label>
+    <label th:for="*{lastName}">[[#{person.lastName}]]:</label>
     <input  type="text" name="lasName"  th:field="*{lastName}">
     <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Error LastName</span>
 
     <br>
 
-    <label th:for="*{phoneNumber}">PhoneNumber:</label>
+    <label th:for="*{phoneNumber}">[[#{person.phone}]]:</label>
     <input  type="tel" name="phoneNumber"  th:field="*{phoneNumber}">
     <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">Error PhoneNumber</span>
     <br>
 
-    <label th:for="*{email}">Email:</label>
+    <label th:for="*{email}">[[#{person.email}]]:</label>
     <input  type="text" name="email"  th:field="*{email}">
     <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error Email</span>
     <br>

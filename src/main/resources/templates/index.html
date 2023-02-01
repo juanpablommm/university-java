@@ -15,27 +15,19 @@ mismo tipo de etiqueta html que sea la del fragmento-->
 
 
 
-<!--para la agregacion de un link, utilizando la tecnologia de thymelaft,
-dentro de nuestra etiqueta a de html, agregamos la etiqueta th:href y dentro de las commillas
-dado que es un link, nos apoyaremos de el @  y las {} algo similar a cuando
-utilizamos el signo de $ y las mismas {} para agregar codigo java y logica dentro de nuestra
-plantilla, finalamnete agregamos el path a donde queremos redirecionar-->
-<a th:href="@{/add}">Add Person</a>
+<!--traemos nuestra propiedad del properties paraa que sea el valor a mostrar como texto para la etiqueta html-->
+<a th:href="@{/add}" th:text="#{person.create}"></a>
 
 <div th:if="${people != null && !people.isEmpty()}">
-<!--con la etiqueta th:if de thymeleaf podemos validar una condicional, para aplicar en base a si se cumple o no
-la accion que queremos llevar a cabo, como por ejemplo en este caso dibujar nuestra tabla;
-simplemente apoyandonos de la sintasis que ya conocemos ${} en ella mandamos a llamar el obejto que mandamos desde el controlador
-y podemos aplicar codigo java dentro de esta sintaxis, como en este caso comparar si nuestro objeto es diferente de null y diferente de vacio-->
 
     <table border="1">
         <tr>
-            <th>Name</th>
-            <th>LastName</th>
-            <th>Phone number</th>
-            <th>Email</th>
-            <th>Update</th>
-            <th>Delete</th>
+            <th th:text="#{person.name}"></th>
+            <th th:text="#{person.lastName}"></th>
+            <th th:text="#{person.phone}"></th>
+            <th th:text="#{person.email}"></th>
+            <th th:text="#{action.update}"></th>
+            <th th:text="#{action.delete}"></th>
         </tr>
         <tr th:each="person : ${people}">
             <!--para realizar la iteracion sobre una collection que enviemos desde nuestro controllador,
@@ -56,7 +48,7 @@ y podemos aplicar codigo java dentro de esta sintaxis, como en este caso compara
             atravez de  path param quedando algo similar ah localhost:8080/update/1
 
             si fuese por query param seria locahost:8080/update?id=1-->
-            <td><a th:href="@{/update/} + ${person.getId()}" th:text="Update"/></td>
+            <td><a th:href="@{/update/} + ${person.getId()}" th:text="#{action.update}"/></td>
 
 
             <!--
@@ -71,13 +63,13 @@ y podemos aplicar codigo java dentro de esta sintaxis, como en este caso compara
             el = para asignarle al valor, y nos apoyamos de la expresion ${} para meter codigo java, en el
             cual estamos llamando al metod get del id persona
             -->
-            <td><a th:href="@{/delete(id=${person.getId()})}" th:text="Delete"/></td>
+            <td><a th:href="@{/delete(id=${person.getId()})}" th:text="#{action.delete}"/></td>
         </tr>
     </table>
 </div>
 
-<div th:if="${people == null || people.isEmpty()}">
-    The list of people is empty...
+<div th:if="${people == null || people.isEmpty()}" th:text="#{person.list.empty}">
+
 </div>
 
 <!--de igual manera que con el heeder ahora reutilizamos nuestro fragmento defino desde nuestra plnatilla de thymeleaf

@@ -3,6 +3,7 @@ package com.udemy.spring.cource.universityjava.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,13 +28,11 @@ public class Person implements Serializable {
     private Long id;
 
 
-    @NotNull
-    @NotBlank
+    @NotEmpty
     @Column(name = "name")
     private String name;
 
-    @NotNull
-    @NotBlank
+    @NotEmpty
     @Column(name = "last_name")
     private String lastName;
 
@@ -41,8 +40,7 @@ public class Person implements Serializable {
     @Column(name = "phone_number")
     private Long phoneNumber;
 
-    @NotBlank
-    @NotNull
+    @NotEmpty
     @Email
     @Column(name = "email")
     private String email;
