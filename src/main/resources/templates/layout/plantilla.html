@@ -15,7 +15,11 @@ reutilizar desde otras paginas html asignandole un nombre para ser llamdo este f
 </header>
 
 <footer th:fragment="footer">
-    <p>[[#{plantilla.footer}]]<a href="#">Juampis Montoya</a></p>
+    <div>
+        <a th:href="@{/(lang=es)}">Spanish</a> |
+        <a th:href="@{/(lang=en)}">English</a>
+        <span>[[#{plantilla.footer}]]<a href="#">Juampis Montoya</a></span>
+    </div>
 </footer>
 </body>
 </html>
