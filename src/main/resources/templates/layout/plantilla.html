@@ -19,6 +19,9 @@ reutilizar desde otras paginas html asignandole un nombre para ser llamdo este f
         <a th:href="@{/(lang=es)}">Spanish</a> |
         <a th:href="@{/(lang=en)}">English</a>
         <span>[[#{plantilla.footer}]]<a href="#">Juampis Montoya</a></span>
+        <form method="post" th:action="@{/logout}">
+            <a href="#" onclick="this.parentNode.submit()">Logout</a>
+        </form>
     </div>
 </footer>
 </body>

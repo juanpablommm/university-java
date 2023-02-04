@@ -1,95 +1,71 @@
 ### Curso de Spring
 
-**clase-12-manejo-de-varios-idiomas-i18n**
+**clase-13-spring-security-Autenticacion**
 
-El concepto de internacionalizacion o bien llamado el **i18n** basicamente es basicmaent el poder manejar varios idiomas
-desde nuestra aplicacion, para nuestra aplicacion spring mvc, tenemos que configurar un listener el cual ya veine en 
-spring donde unicamente tenemos que dentrar a configurarlo; en donde para ello tenemos que crear una clase de 
-configuracion, **registrar la clase como un Bean de configuracion con la anotacion @Configuration de lo contrario 
-ninguna de las configuraciones que efectuemos en esta clase para la aplicacion y la creacion de nuestros bean que 
-necesitemos funcionaran**, la clase implementara la interface ```WebMvcConfigurer``` de 
-```org.springframework.web.servlet.config.annotation.WebMvcConfigurer```
-esta interfaces no provee de varios metodos que son importandotes como el ```addInterceptors()``` el cual puede utilizarse
-para la pre y post personalizacion de llamadas a los end-point de un controlador.
+Para agregar el concepto de seguridad a nuestra aplicacion web, lo primero que debemos hacer agregar la dependencia de 
+seguridad a nuestra app
+```implementation 'org.springframework.boot:spring-boot-starter-security'```
+aunque existen mas temas para agregar seguridad, con la dependencia de **security** podemos empezar a agregar dicha 
+seguridad, al implmentar esta dependencia automaticamente al correr la application se nos mostrara indlusive en el log
+lo basico para empzar a utlizarla, dandonos un password, pues al observar la dentrar al host de la aplicacion 
+observaremos como aparece pagina para hacer un loggin en la palicacion, donde el suario por defaul es user y el password 
+el que se nos mostro por el log en la consola, de esta manera al ingresar estas  credenciales podremos acceder a nuestra
+aplicacion.
 
-Para nuestro caso en la creacion de nueestra clase de configuracion denominada **WebConfg** que implementa la interface
-ya mencionada debemos crear un ```@Bean``` de la interface ```LocaleResolver``` perteneciente a 
-```org.springframework.web.servlet.LocaleResolver``` el cual deolvera un objeto ```SessionLocaleResolver``` el cual 
-es perteneciente a la misma libreria pero en el package podemos observar que esta l apalabra **i18n**
-haciendo referencia a la internacionalizacion, parta la construcion de este Bean devemos de mandar a llamar el metodo
-```setDefaultLocale()``` el cual recibe como parametro un objecto ```Locale``` que nos permitira establer el idioma que 
-queremos que se maneje por default esto psandole un string en el contructor el cual es el pregfijo del idioma:
-
-En la clase ````BaseLocal```` podemos encontrar los prefijos para los diferentes idiomas:
+* Ahora para poder personalizar los usuarios que pueden realizar loggin en nuestra applicacion, necesitamos crear un 
+Bean de configuracion, en donde como ya sabemos al ser unBean de configuracion debemos agregar la anotacion 
+````@Configuration```` tambien debemos agregar la anotacion ```@EnabledWebSecurity``` para poder habilidar la 
+condiguracion de de la seguridad web con spring, al crear nuevos usuario se desactiva automaticament el usuario por 
+default. 
+Ahora bein para comenzar a personalizar nuestros suarios de la aplicacion debemos crear un metodo en nuestro bean de 
+condifuracion el cual se llamara **configureGlobal** y estara anotado con un 
+````@Autowired```` y debera de llevar como parametro un objecto de tipo ```AuthenticationManagerBuilder``` pues este es 
+el que nos permitra modificar nuestros usuarios de la apalicacion, en este caso se crearan usuarios en memoria, para ello
+llamamos al metodo ```whiUser("juan"")``` el cual recibe un string que sera el nombre de nuestro usuario, y para la 
+contraseña mandaremos a llamar concatenadamente al metodo ````password()```` tambien recibe un string, el password debe de estar condificaco, lo cual se realizara posteriomente cuando se trabaje los usarios con la base de 
+datos y finalamente tendremos que llamar al metodo ````roles("ADMIN"")```` en donde le pasaremos los roles que tendra nuestro 
+usuario basicmanete spring le antepondra un "ROLE_" al rol por ejemplo "ROLE_ADMIN" y de **esta manera habremos creado 
+nuestro usario para loguearnos a la aplicacion**
 ```java
-baseLocales[ENGLISH] = createInstance("en", "");
-            baseLocales[FRENCH] = createInstance("fr", "");
-            baseLocales[GERMAN] = createInstance("de", "");
-            baseLocales[ITALIAN] = createInstance("it", "");
-            baseLocales[JAPANESE] = createInstance("ja", "");
-            baseLocales[KOREAN] = createInstance("ko", "");
-            baseLocales[CHINESE] = createInstance("zh", "");
-            baseLocales[SIMPLIFIED_CHINESE] = createInstance("zh", "CN");
-            baseLocales[TRADITIONAL_CHINESE] = createInstance("zh", "TW");
-            baseLocales[FRANCE] = createInstance("fr", "FR");
-            baseLocales[GERMANY] = createInstance("de", "DE");
-            baseLocales[ITALY] = createInstance("it", "IT");
-            baseLocales[JAPAN] = createInstance("ja", "JP");
-            baseLocales[KOREA] = createInstance("ko", "KR");
-            baseLocales[UK] = createInstance("en", "GB");
-            baseLocales[US] = createInstance("en", "US");
-            baseLocales[CANADA] = createInstance("en", "CA");
-            baseLocales[CANADA_FRENCH] = createInstance("fr", "CA");
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("juan")
+                .password("{noop}060900")
+                .roles("ADMIN", "USER")
+                .and()
+                .withUser("user")
+                .password("{noop},060900")
+                .roles("USER");
+    }
+
+}
+```
+para la passwor al meter **{noop}** estamos mencionandole a spring que no queremos que la codifique, sino que la maneje 
+como un texto plano
+
+* Ahora para aplicar un **Logout** y que el suario salga de nuestra aplicacion y valla al login, vastaria con hacer una
+petion post al path /logout que esta configuracion para salir ya nos la rovee spring, simplemente con realizar un post
+hacia este path saldriamos de la apñlicacion al loggin,  para ende nostros lo metimos en nuestra plantilla de thymeleaf 
+en la que estamos reulizando fragmentos, colocandolo el footer mediante un formulario que ralizara este post
+```html
+<footer th:fragment="footer">
+    <div>
+        <a th:href="@{/(lang=es)}">Spanish</a> |
+        <a th:href="@{/(lang=en)}">English</a>
+        <span>[[#{plantilla.footer}]]<a href="#">Juampis Montoya</a></span>
+        <form method="post" th:action="@{/logout}">
+            <a href="#" onclick="this.parentNode.submit()">Logout</a>
+        </form>
+    </div>
+</footer>
 ```
 
-Tambien necesitamos ocnfigurar un Bean para el interceptor ```LocaleChangeInterceptor``` el cual nos permitira a travez
-del metodo ```setParamName()``` establcer cual sera el nombre del parametro que nos permitra cambiar de lenguaje, en ese
-caso conado adjutemos el parametro con el nombre que le indiquemos en nuestras URL podemos indicar cual sera el lenguaje
-a implementar utlizando las sintaxis de internacionalizacion segun el pais que vallamos autlizar.
-
-Despues de esto tendremos que agregar el interceptor con ayuda del metodo ```addInterceptors()``` que define la interface
-que mencionamos antes
-
-````java
-@Configuration
-public class WebConfig implements WebMvcConfigurer {
-
-    @Bean
-    public LocaleResolver localeResolver(){
-        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-        localeResolver.setDefaultLocale(new Locale("en"));
-        return localeResolver;
-    }
-
-    @Bean
-    public LocaleChangeInterceptor localeChangeInterceptor(){
-        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
-        localeChangeInterceptor.setParamName("lang");
-        return localeChangeInterceptor;
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(this.localeChangeInterceptor());
-    }
-}
-
-````
-
-
-y como paso final tenemos que agregar diferentes idiomas, por lo que crearemo dos archivos mas del **messages.properties**
-en donde tenimoas los mensajes amostrar en nuestra template de thymeleaf con ayuda de sus etiquetas, y los mensajes
-que configuramos para las validaciones de spring, donde simplmente estos archivos se llmaran de caorde a las siglas del 
-lenguaje por ejemplo **messages_en.properties**, **messages_es.properties** y el defaul simplmente sera
-**messages.properties** en dado caso que no se pueda reconocer o leeer el idioma entonces se toma la configuracion del 
-archivo por default
-
-ya en nuestra plnatilla que deifnimos en thymeleaf para ser reutilizadas por otras templates, aplicamos un link en el 
-footer el cual envia al path principal de la palicacion por Query Param el nombre del atributo que definimos en nuestra
-configuracion del SeessionLocalResolver con el idioma que vallamos a aplicar para nuestra aplicacion de acorde a los 
-archivos messages.properties que tengamos para cada idioma
-````html
-<a th:href="@{/(lang=es)}">Spanish</a> |
-<a th:href="@{/(lang=en)}">English</a>
-<span>[[#{plantilla.footer}]]<a href="#">Juampis Montoya</a></span>
-````
+Anteriomente nuestro Bean de configuracion que se encargaria de personalizar los usuarios que pueden acceder a la 
+applicacion deberia de extender de la clase `````WebSecurityConfigurerAdapter````` y sobreescribir los metodos configurer
+pero apartir de **spring 5** se decidio deprecar esta forma de accerlo por lo que esta clase ya ni se encuentra en los 
+paquetedes de la dependencia de spring security
