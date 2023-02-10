@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+</head>
+<body>
+<h1>Login</h1>
+<form method="post" th:action="@{/login}">
+
+  <!--al momento de crear nuestra vista personalizada para el loggin y no la de spring security
+  debemos tener en cuenta que el nombre los attributos a en viar en el formulario devn de ser
+  username para el usuartio y passwoord para su contraseña de lo contrario no va a funcionar para cuando
+  llege a /login => este tambien debe de ir extrictamente hacia /login para que ocrrua el proceso de autenticacion-->
+  <label for="username">Username:</label>
+  <input type="text" name="username" id="username">
+
+  <label for="password">Password:</label>
+  <input type="password" name="password" id="password">
+  <input type="submit" value="login">
+</form>
+</body>
+</html>

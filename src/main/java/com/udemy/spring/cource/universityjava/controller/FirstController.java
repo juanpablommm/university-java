@@ -5,6 +5,8 @@ import com.udemy.spring.cource.universityjava.entity.Person;
 import com.udemy.spring.cource.universityjava.service.IPersonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 
 @Slf4j
-@Controller("/")
+@Controller()
 public class FirstController {
 
     private IPersonService service;
@@ -25,9 +27,14 @@ public class FirstController {
         this.service = service;
     }
 
+    /*cuando quremos acceder al usaurio que se ha autenticado en la palciacion desde un controlador
+    * podemos apoyarnos de la anotacion  @AuthenticationPrincipal y con un atributo tipo User
+    * ambis del core de spring security se ralizar la inyeccion de depencian hacia nuestro atributo
+    * con los datos del usuario que se autentico para acceder a ese enpoint segun las reglas de autorizacion
+    * que hallamos definido*/
     @GetMapping("/")
-    public String index(Model model){
-        log.debug("ingresamos al end-point del index.estamos jecutando un controlador Sprign MVC");
+    public String index(Model model, @AuthenticationPrincipal User user){
+        log.info("usaurio en el sistema => {}", user);
         List<Person> people = service.listPeople();
         model.addAttribute("people", people);
         return "index";
