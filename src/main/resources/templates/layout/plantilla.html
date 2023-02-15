@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-    <meta cha rset="UTF-8">
+    <meta charset="UTF-8">
     <title>Plantilla</title>
 </head>
 <body>
@@ -20,6 +22,8 @@ reutilizar desde otras paginas html asignandole un nombre para ser llamdo este f
         <a th:href="@{/(lang=en)}">English</a>
         <span>[[#{plantilla.footer}]]<a href="#">Juampis Montoya</a></span>
         <form method="post" th:action="@{/logout}">
+            <b>User:</b> <label th:text="${username}"></label> |
+            <b>Roles:</b> <span th:text="${roles}"></span> |
             <a href="#" onclick="this.parentNode.submit()">Logout</a>
         </form>
     </div>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
@@ -16,7 +17,7 @@ mismo tipo de etiqueta html que sea la del fragmento-->
 
 
 <!--traemos nuestra propiedad del properties paraa que sea el valor a mostrar como texto para la etiqueta html-->
-<a th:href="@{/add}" th:text="#{person.create}"></a>
+<a th:if="${roles.contains('ROLE_ADMIN')}" th:href="@{/add}" th:text="#{person.create}"></a>
 
 <div th:if="${people != null && !people.isEmpty()}">
 
@@ -26,8 +27,8 @@ mismo tipo de etiqueta html que sea la del fragmento-->
             <th th:text="#{person.lastName}"></th>
             <th th:text="#{person.phone}"></th>
             <th th:text="#{person.email}"></th>
-            <th th:text="#{action.update}"></th>
-            <th th:text="#{action.delete}"></th>
+            <th th:if="${roles.contains('ROLE_ADMIN')}" th:text="#{action.update}"></th>
+            <th th:if="${roles.contains('ROLE_ADMIN')}" th:text="#{action.delete}"></th>
         </tr>
         <tr th:each="person : ${people}">
             <!--para realizar la iteracion sobre una collection que enviemos desde nuestro controllador,
@@ -48,7 +49,7 @@ mismo tipo de etiqueta html que sea la del fragmento-->
             atravez de  path param quedando algo similar ah localhost:8080/update/1
 
             si fuese por query param seria locahost:8080/update?id=1-->
-            <td><a th:href="@{/update/} + ${person.getId()}" th:text="#{action.update}"/></td>
+            <td th:if="${roles.contains('ROLE_ADMIN')}"><a th:href="@{/update/} + ${person.getId()}" th:text="#{action.update}"/></td>
 
 
             <!--
@@ -63,7 +64,7 @@ mismo tipo de etiqueta html que sea la del fragmento-->
             el = para asignarle al valor, y nos apoyamos de la expresion ${} para meter codigo java, en el
             cual estamos llamando al metod get del id persona
             -->
-            <td><a th:href="@{/delete(id=${person.getId()})}" th:text="#{action.delete}"/></td>
+            <td th:if="${roles.contains('ROLE_ADMIN')}"><a th:href="@{/delete(id=${person.getId()})}" th:text="#{action.delete}"/></td>
         </tr>
     </table>
 </div>

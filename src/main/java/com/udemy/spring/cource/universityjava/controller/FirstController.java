@@ -4,8 +4,10 @@ package com.udemy.spring.cource.universityjava.controller;
 import com.udemy.spring.cource.universityjava.entity.Person;
 import com.udemy.spring.cource.universityjava.service.IPersonService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +16,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.List;
+
+import java.security.Principal;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller()
@@ -33,10 +38,15 @@ public class FirstController {
     * con los datos del usuario que se autentico para acceder a ese enpoint segun las reglas de autorizacion
     * que hallamos definido*/
     @GetMapping("/")
-    public String index(Model model, @AuthenticationPrincipal User user){
-        log.info("usaurio en el sistema => {}", user);
-        List<Person> people = service.listPeople();
-        model.addAttribute("people", people);
+    public String index(Model model, Authentication user){
+        log.info("usaurio en el sistema => {}", user.getAuthorities()
+        );
+        List<String> roles = user.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+        log.info("usaurio en el sistema => {}", roles.contains("ROLE_ADMIN"));
+        model.addAttribute("people", service.listPeople());
+        model.addAttribute("username", user.getName());
+        model.addAttribute("roles", roles);
         return "index";
     }
 
