@@ -1,0 +1,30 @@
+create table person
+(
+    id           int auto_increment
+        primary key,
+    name         varchar(100) not null,
+    last_name    varchar(100) not null,
+    phone_number varchar(100) not null,
+    email        varchar(100) not null,
+    constraint id
+        unique (id)
+);
+
+create table user
+(
+    id       int auto_increment
+        primary key,
+    username varchar(100) not null,
+    password varchar(200) not null
+);
+
+create table rol
+(
+    id      int auto_increment
+        primary key,
+    name    varchar(100) not null,
+    id_user int          not null,
+    constraint id_user_rol
+        foreign key (id_user) references user (id)
+);
+

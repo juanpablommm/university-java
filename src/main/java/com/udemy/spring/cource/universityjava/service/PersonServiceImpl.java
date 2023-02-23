@@ -37,7 +37,7 @@ public class PersonServiceImpl  implements IPersonService{
     @Override
     @Transactional(readOnly = true)
     public Person findPerson(Person person) {
-        /*nos regresa un optional, este objecto lo que nos permite basicamente s decidir que
+        /*nos regresa un optional, este objecto lo que nos permite basicamente es decidir que
         * hacer en dado caso de que el valor esperado sea de tipo null, podemos seleccionar varias obsiones,
         * como que regrese solo el obejto, o en caso contrario que este no este decidamos que regresar, o en dado
         * caso que no este enviar una excepcion*/

@@ -1,12 +1,14 @@
 package com.udemy.spring.cource.universityjava.config;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 
@@ -16,6 +18,7 @@ public class SecurityConfig {
 
 
 
+    /*
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
@@ -26,6 +29,37 @@ public class SecurityConfig {
                 .withUser("user")
                 .password("{noop}060900")
                 .roles("USER");
+    }
+    Cambiamos la autenticacion en memoria por la autenticacion con JDBC, en donde los usuarios que autenticaremos en la
+    app con los que esten en nuestra base de datos*/
+
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+    /*para configurar nuestra autenticacion de los usuarios de la app, ya con las implementaciones de JPA que definimos,
+    * obteniendo los usuarios de la base de datos, nos podemos aportar de la creacion de un bean para AuthenticationManager,
+    * en donde utlizamos la inyecion de dependencias para HttpSecurity, similar al proceso de autorizacion
+    * en el que deifnimos un bean para SecurityFilterChain. y definimos cual sera nuestra impementacion de UserDetailsService,
+    * con ayuda de la anotacion @Qualifier pasandole como parametro el nombre que le dimos a nuestro service, el cual
+    * esta implementando nuestra interface service que definimos y que extiende de UserDetailsManage, que asu vez esta
+    * extiende de UserDetailsService, siendo esta interface a la cual tenemos que definir la implemntacion del metodo
+    * loadUserByUsername el cual utlizamos para traer el usuario de la base de datos con ayuda de nuestro dao y
+    * retornamos un objeto tipo UserDetails, siendo en especial la clase User de spring security en el que decimos el
+    * username del usuario, la password y el o los roles.
+    * Una vez tenemos nuestra intancia a utilizar de UserDetailsService, la cual es la nuestra, al HttpSecurity,
+    * le pasamos el obeto UserDetailsService mas el bean de encriptacion a tulizar, el cual es tipo BCryptPasswordEncoder
+    */
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http, @Qualifier("userDetailsServiceJdbc") UserDetailsService userDetailsService)
+            throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(this.bCryptPasswordEncoder())
+                .and()
+                .build();
     }
 
     /*la infraestructra de spring security esta basada en el standar de filtros de los servlets
@@ -78,5 +112,10 @@ public class SecurityConfig {
                 .accessDeniedPage("/errores/unauthorized")
                 .and().build();
     }
+
+
+    /*definimos un bean para nuestro tipo de encriptacion que vamos a manejar, siendo BCryptPasswordEncoder la recomendada
+    por spring*/
+
 
 }
